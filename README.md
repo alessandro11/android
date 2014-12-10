@@ -1,4 +1,4 @@
-Most of the exmaples are taken from
+Most of the examples are taken from:
 PROFESSIONAL ANDROID 4 APPLICATION DEVELOPMENT
 
-See git log for description and page based example.
+See git log for description and page on each example.
