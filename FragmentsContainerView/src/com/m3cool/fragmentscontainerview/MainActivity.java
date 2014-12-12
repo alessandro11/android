@@ -16,9 +16,27 @@ public class MainActivity extends Activity {
 		
 		FragmentManager fm = getFragmentManager();
 		
+		/*
+		 * This is the best practice.
+		 * Check to see if the Fragment back stack has been populated
+    	 * If not, create and populate the layout.
+    	 *...
+    	 * 
+    	 *	DetailsFragment detailsFragment = 
+      	 *	(DetailsFragment)fm.findFragmentById(R.id.details_container);
+    	 *
+		 *   if (detailsFragment == null) {
+		 *      FragmentTransaction ft = fm.beginTransaction(); 
+		 *      ft.add(R.id.details_container, new DetailsFragment());
+		 *      ft.add(R.id.ui_container, new MyListFragment());
+		 *      ft.commit();
+		 *    }
+		 *    
+		 *    Below has been left as it is, for simplicity.
+		 */
 		FragmentTransaction ft = fm.beginTransaction();
-		ft.add(R.id.list_fragment_container, new ListFragment());
-		//ft.add(R.id.details_fragment_container, new DetailsFragment());
+		ft.add(R.id.list_container, new ListFragment());
+		ft.add(R.id.details_container, new DetailsFragment());
 		ft.commit();
 	}
 

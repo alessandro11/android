@@ -3,21 +3,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
     
-    <TextView
+    <TextView 
         android:id="@+id/txtview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/btn"
+        android:layout_alignParentTop="true"
         android:layout_centerInParent="true"
-        android:text="This is exmaple"
-        android:textSize="?android:attr/textAppearanceMedium" />
-
+        android:layout_alignBaseline="@+id/btn_OK"
+        android:layout_marginRight="6dp"
+        android:textSize="16sp"
+        android:text="Label:" />
+    
     <Button 
-        android:id="@+id/btn"
-        android:layout_width="0dp"
+        android:id="@+id/btn_OK"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_toRightOf="@id/txtview"
+        android:layout_toRightOf="@+id/txtview"
         android:text="OK" />
-    
+
 </RelativeLayout>
