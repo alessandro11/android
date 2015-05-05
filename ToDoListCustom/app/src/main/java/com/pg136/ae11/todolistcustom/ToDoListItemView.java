@@ -52,8 +52,14 @@ public class ToDoListItemView extends TextView {
         // Color as paper
         canvas.drawColor(paperColor);
 
-        // Draw ruled 
-        // Use the base TextView to render the text.
+        // Draw margin
+        canvas.drawLine(0, 0, 0, getMeasuredHeight(), marginPaint);
+
+        // Move the text across from the margin
+        canvas.save();
+        canvas.translate(margin, 0);
+
+        // Use the TextView to render the text
         super.onDraw(canvas);
-    }
+        canvas.restore();    }
 }
