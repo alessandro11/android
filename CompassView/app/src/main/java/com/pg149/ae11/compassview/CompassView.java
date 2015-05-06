@@ -99,7 +99,7 @@ public class CompassView extends View {
 
     // Objects reuse to avoid creation in onDraw
     private Paint pgb;
-    private Point screen_size;
+    private Path outerRingPath;
 
     public void initCompassView() {
         setFocusable(true);
@@ -161,11 +161,7 @@ public class CompassView extends View {
         groundHorizonColorTo = r.getColor(R.color.horizon_ground_to);
 
         pgb = new Paint();
-        // Get window size
-        WindowManager wm = (WindowManager)getContext().getSystemService(Context.WINDOW_SERVICE);
-        Display dsp = wm.getDefaultDisplay();
-        screen_size = new Point();
-        dsp.getSize(screen_size);
+        outerRingPath = new Path();
     }
 
     @Override
@@ -205,7 +201,7 @@ public class CompassView extends View {
     int py = height / 2;
     Point center = new Point(px, py);
 
-    int radius = Math.min(px, py) - 2;
+    int radius = Math.min(px, py) - 50;
 
     RectF boundingBox = new RectF(center.x - radius,
                                   center.y - radius,
@@ -224,7 +220,6 @@ public class CompassView extends View {
 
     pgb.setShader(borderGradient);
 
-    Path outerRingPath = new Path();
     outerRingPath.addOval(boundingBox, Path.Direction.CW);
 
     canvas.drawPath(outerRingPath, pgb);

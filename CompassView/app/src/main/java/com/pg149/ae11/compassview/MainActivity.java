@@ -7,12 +7,15 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Surface;
 import android.view.WindowManager;
+import android.widget.TextView;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class MainActivity extends Activity {
@@ -20,6 +23,8 @@ public class MainActivity extends Activity {
     private float[] mValues = new float[3];
     private CompassView compassview;
     private SensorManager sensorManager;
+    private TextView pos;
+    private String pos_str;
     private int rotation;
 
     @Override
@@ -27,6 +32,8 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        pos = (TextView)findViewById(R.id.pos);
+        pos_str = new String();
         compassview = (CompassView)findViewById(R.id.compassview);
         sensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
         WindowManager wm = (WindowManager)getSystemService(Context.WINDOW_SERVICE);
@@ -34,6 +41,13 @@ public class MainActivity extends Activity {
         rotation = display.getRotation();
 
         updateOrientation(new float[] {0, 0, 0});
+        Timer updateTimer = new Timer("UpdateCompassView");
+        updateTimer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                updateGUI();
+            }
+        }, 0, 100);
     }
 
     private void updateOrientation(float[] values) {
@@ -41,12 +55,7 @@ public class MainActivity extends Activity {
             compassview.setBearing(values[0]);
             compassview.setPitch(values[1]);
             compassview.setRoll(-values[2]);
-
-//            Log.d("DBG", "0=" + values[0]);
-//            Log.d("DBG", "1=" + values[1]);
-//            Log.d("DBG", "2=" + values[2]);
-
-            compassview.invalidate();
+            pos_str = "     X: " + values[0] + "   Y: " + values[1] + "       Z: " + values[2];
         }
     }
 
@@ -75,7 +84,6 @@ public class MainActivity extends Activity {
                 y_axis = SensorManager.AXIS_X;
                 break;
         }
-
         SensorManager.remapCoordinateSystem(intR, x_axis, y_axis, outR);
 
         // Obtain the current, corrected orientation.
@@ -96,13 +104,22 @@ public class MainActivity extends Activity {
                 aValues = event.values;
             if( event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD )
                 mValues = event.values;
-
-            updateOrientation(calculateOrientation());
         }
 
         @Override
         public void onAccuracyChanged(Sensor sensor, int accuracy) { }
     };
+
+    private void updateGUI() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                updateOrientation(calculateOrientation());
+                pos.setText(pos_str);
+                compassview.invalidate();
+            }
+        });
+    }
 
     @Override
     protected void onResume() {
