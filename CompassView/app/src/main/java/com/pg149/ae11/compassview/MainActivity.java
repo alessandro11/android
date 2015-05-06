@@ -7,6 +7,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -40,6 +41,11 @@ public class MainActivity extends Activity {
             compassview.setBearing(values[0]);
             compassview.setPitch(values[1]);
             compassview.setRoll(-values[2]);
+
+//            Log.d("DBG", "0=" + values[0]);
+//            Log.d("DBG", "1=" + values[1]);
+//            Log.d("DBG", "2=" + values[2]);
+
             compassview.invalidate();
         }
     }
