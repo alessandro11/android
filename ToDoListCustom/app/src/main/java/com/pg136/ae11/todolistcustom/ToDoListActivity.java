@@ -17,12 +17,11 @@ public class ToDoListActivity extends Activity implements NewItemFragment.OnNewI
         super.onCreate(savedInstanceState);
 
         // Inflate your view
-        setContentView(R.layout.main);
+        setContentView(R.layout.activity_main);
 
         // Get references to the Fragments
         FragmentManager fm = getFragmentManager();
-        ToDoListFragment todoListFragment =
-                (ToDoListFragment)fm.findFragmentById(R.id.TodoListFragment);
+        ToDoListFragment todoListFragment = (ToDoListFragment)fm.findFragmentById(R.id.TodoListFragment);
 
         // Create the array list of to do items
         todoItems = new ArrayList<String>();

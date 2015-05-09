@@ -52,8 +52,12 @@ public class ToDoListItemView extends TextView {
         // Color as paper
         canvas.drawColor(paperColor);
 
+        // Draw ruled lines
+        canvas.drawLine(0, 0, 0, getMeasuredHeight(), linePaint);
+        canvas.drawLine(0, getMeasuredHeight(), getMeasuredWidth(), getMeasuredHeight(), linePaint);
+
         // Draw margin
-        canvas.drawLine(0, 0, 0, getMeasuredHeight(), marginPaint);
+        canvas.drawLine(margin, 0, margin, getMeasuredHeight(), marginPaint);
 
         // Move the text across from the margin
         canvas.save();
@@ -61,5 +65,6 @@ public class ToDoListItemView extends TextView {
 
         // Use the TextView to render the text
         super.onDraw(canvas);
-        canvas.restore();    }
+        canvas.restore();
+    }
 }
