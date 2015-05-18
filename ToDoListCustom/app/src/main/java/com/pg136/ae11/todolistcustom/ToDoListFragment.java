@@ -5,8 +5,8 @@ package com.pg136.ae11.todolistcustom;
  */
 import android.annotation.TargetApi;
 import android.app.ListFragment;
-import android.os.Build;
+//import android.os.Build;
 
-@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+//@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class ToDoListFragment extends ListFragment {
 }

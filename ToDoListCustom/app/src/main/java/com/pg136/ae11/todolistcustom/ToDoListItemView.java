@@ -1,5 +1,6 @@
 package com.pg136.ae11.todolistcustom;
 
+import android.app.Fragment;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
@@ -11,7 +12,7 @@ import android.widget.TextView;
 /**
  * Created by m3cool on 07/04/15.
  */
-public class ToDoListItemView extends TextView {
+public class ToDoListItemView extends Fragment {
     private Paint marginPaint;
     private Paint linePaint;
     private int paperColor;
@@ -50,6 +51,7 @@ public class ToDoListItemView extends TextView {
     @Override
     public void onDraw(Canvas canvas) {
         // Color as paper
+        /*
         canvas.drawColor(paperColor);
 
         // Draw ruled lines
@@ -64,7 +66,7 @@ public class ToDoListItemView extends TextView {
         canvas.translate(margin, 0);
 
         // Use the TextView to render the text
+        canvas.restore();*/
         super.onDraw(canvas);
-        canvas.restore();
     }
 }

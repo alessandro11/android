@@ -1,58 +1,71 @@
 package com.pg136.ae11.todolistcustom;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.os.Bundle;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.EditText;
+import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.util.AttributeSet;
+import android.widget.TextView;
 
-/**
- * Created by ae11 on 4/9/15.
- */
-public class NewItemFragment extends Fragment {
-    private OnNewItemAddedListener onNewItemAddedListener;
+public class ToDoListItemView extends TextView {
 
-    public interface OnNewItemAddedListener {
-        public void onNewItemAdded(String newItem);
-    }
+  private Paint marginPaint;
+  private Paint linePaint;
+  private int paperColor;
+  private float margin;
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
-        View view = inflater.inflate(R.layout.new_item_fragment, container, false);
 
-        final EditText myEditText = (EditText)view.findViewById(R.id.myEditText);
+  public ToDoListItemView (Context context, AttributeSet ats, int ds) {
+    super(context, ats, ds);
+    init();
+  }
 
-        myEditText.setOnKeyListener(new View.OnKeyListener() {
-            public boolean onKey(View v, int KeyCode, KeyEvent event) {
-                if (event.getAction() == KeyEvent.ACTION_DOWN)
-                    if ((KeyCode == KeyEvent.KEYCODE_DPAD_CENTER) ||
-                            (KeyCode == KeyEvent.KEYCODE_ENTER)) {
-                        String newItem = myEditText.getText().toString();
-                        onNewItemAddedListener.onNewItemAdded(newItem);
-                        myEditText.setText("");
+  public ToDoListItemView (Context context) {
+    super(context);
+    init();
+  }
 
-                        return true;
-                    }
+  public ToDoListItemView (Context context, AttributeSet attrs) {
+    super(context, attrs);
+    init();
+  }
 
-                return false;
-            }
-        });
+  private void init() {
+    // Get a reference to our resource table.
+    Resources myResources = getResources();
 
-        return view;
-    }
+    // Create the paint brushes we will use in the onDraw method.
+    marginPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    marginPaint.setColor(myResources.getColor(R.color.notepad_margin));
+    linePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    linePaint.setColor(myResources.getColor(R.color.notepad_lines));
 
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
+    // Get the paper background color and the margin width.
+    paperColor = myResources.getColor(R.color.notepad_paper);
+    margin = myResources.getDimension(R.dimen.notepad_margin);
+  }
 
-        try {
-            onNewItemAddedListener = (OnNewItemAddedListener)activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString() +
-            " must implement OnNewItemAddedListener");
-        }
-    }
+  @Override
+  public void onDraw(Canvas canvas) {
+    // Color as paper
+    canvas.drawColor(paperColor);
+
+    // Draw ruled lines
+    canvas.drawLine(0, 0, 0, getMeasuredHeight(), linePaint);
+    canvas.drawLine(0, getMeasuredHeight(),
+                       getMeasuredWidth(), getMeasuredHeight(),
+                       linePaint);
+
+    // Draw margin
+    canvas.drawLine(margin, 0, margin, getMeasuredHeight(), marginPaint);
+
+    // Move the text across from the margin
+    canvas.save();
+    canvas.translate(margin, 0);
+
+    // Use the TextView to render the text
+    super.onDraw(canvas);
+    canvas.restore();
+  }
+
 }
